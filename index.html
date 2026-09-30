@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>영어 단어장</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --canvas: #F3F0EE;
+    --lifted: #FCFBFA;
+    --white: #FFFFFF;
+    --ink: #141413;
+    --slate: #696969;
+    --whisper: #D1CDC7;
+    --accent: #F37338;
+    --clay: #9A3A0A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: "Sofia Sans", Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 450;
+    line-height: 1.4;
+  }
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 48px 20px 64px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  h1 {
+    margin: 0 0 32px;
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  /* form card */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    background: var(--lifted);
+    border-radius: 40px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0 24px 48px 0;
+  }
+  input[type="text"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 24px;
+    background: var(--white);
+    border: 1px solid rgba(20, 20, 19, 0.5);
+    border-radius: 999px;
+    color: var(--ink);
+    font: inherit;
+  }
+  input[type="text"]::placeholder { color: var(--slate); }
+  input[type="text"]:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  button {
+    min-height: 44px;
+    padding: 6px 24px;
+    border: 1.5px solid var(--ink);
+    border-radius: 20px;
+    font: inherit;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+  }
+  button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  button:active { transform: scale(0.97); }
+  .primary { background: var(--ink); color: var(--canvas); }
+  .secondary { background: var(--white); color: var(--ink); font-weight: 450; }
+
+  #msg {
+    min-height: 22px;
+    margin: 12px 24px 0;
+    color: var(--clay);
+    font-size: 15px;
+  }
+
+  /* progress + tabs */
+  #count {
+    margin: 32px 0 16px;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  #tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  #tabs button {
+    flex: 1;
+    min-height: 48px;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--ink);
+    font-weight: 450;
+  }
+  #tabs button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--canvas);
+    font-weight: 500;
+  }
+
+  /* list */
+  #list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  #list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 16px 16px 20px;
+    background: var(--lifted);
+    border-radius: 24px;
+  }
+  #list li.empty {
+    justify-content: center;
+    padding: 40px 20px;
+    background: transparent;
+    border: 1.5px dashed var(--whisper);
+    color: var(--slate);
+  }
+  .check {
+    flex: none;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--white);
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+  }
+  .check::after {
+    content: "";
+    width: 12px;
+    height: 7px;
+    border-left: 2.5px solid var(--canvas);
+    border-bottom: 2.5px solid var(--canvas);
+    transform: rotate(-45deg) translate(1px, -1px);
+    opacity: 0;
+  }
+  .check:checked { background: var(--ink); }
+  .check:checked::after { opacity: 1; }
+  .check:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .text .w {
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .text .m { display: block; color: var(--slate); }
+  li.done .text .w { text-decoration: line-through; color: var(--slate); }
+  li.done .text .m { color: var(--whisper); }
+
+  #list li button { flex: none; padding: 6px 18px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Vocabulary</p>
+  <h1>영어 단어장</h1>
+
+  <form id="form">
+    <input type="text" id="word" placeholder="단어" autocomplete="off">
+    <input type="text" id="meaning" placeholder="뜻" autocomplete="off">
+    <button type="submit" class="primary">추가</button>
+  </form>
+  <p id="msg" role="status"></p>
+
+  <p id="count"></p>
+
+  <div id="tabs">
+    <button type="button" data-tab="all" aria-pressed="true">전체</button>
+    <button type="button" data-tab="todo" aria-pressed="false">외울 것</button>
+  </div>
+
+  <ul id="list"></ul>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const db = supabase.createClient(
+  'https://tiscdhmqhigzgjytjyno.supabase.co',
+  'sb_publishable_9yBPFtz1owz1L4mREz9GBg_7bLRz9vd'
+);
+
+const $ = (id) => document.getElementById(id);
+let words = [];
+let tab = 'all';
+
+function showMsg(text) { $('msg').textContent = text; }
+
+for (const btn of document.querySelectorAll('#tabs button')) {
+  btn.addEventListener('click', () => {
+    tab = btn.dataset.tab;
+    render();
+  });
+}
+
+function render() {
+  const memorizedCount = words.filter((w) => w.memorized).length;
+  $('count').textContent = `${words.length}개 중 ${memorizedCount}개 외움`;
+
+  for (const btn of document.querySelectorAll('#tabs button')) {
+    btn.setAttribute('aria-pressed', btn.dataset.tab === tab);
+  }
+
+  const shown = tab === 'todo' ? words.filter((w) => !w.memorized) : words;
+  const list = $('list');
+  list.textContent = '';
+  if (shown.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'empty';
+    li.textContent = tab === 'todo' && words.length > 0 ? '외울 단어가 없어요' : '단어가 없어요';
+    list.appendChild(li);
+    return;
+  }
+  for (const w of shown) {
+    const li = document.createElement('li');
+    if (w.memorized) li.className = 'done';
+
+    const box = document.createElement('input');
+    box.type = 'checkbox';
+    box.className = 'check';
+    box.checked = w.memorized;
+    box.setAttribute('aria-label', '외움');
+    box.addEventListener('change', () => toggle(w, box));
+
+    const text = document.createElement('div');
+    text.className = 'text';
+    const wordEl = document.createElement('span');
+    wordEl.className = 'w';
+    wordEl.textContent = w.word;
+    const meaningEl = document.createElement('span');
+    meaningEl.className = 'm';
+    meaningEl.textContent = w.meaning;
+    text.append(wordEl, meaningEl);
+
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'secondary';
+    del.textContent = '삭제';
+    del.addEventListener('click', () => remove(w));
+
+    li.append(box, text, del);
+    list.appendChild(li);
+  }
+}
+
+async function load() {
+  const { data, error } = await db.from('words').select('*').order('created_at', { ascending: false });
+  if (error) { showMsg('불러오기 실패: ' + error.message); return; }
+  words = data;
+  render();
+}
+
+$('form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const word = $('word').value.trim();
+  const meaning = $('meaning').value.trim();
+  if (!word || !meaning) {
+    showMsg(!word ? '단어를 입력하세요.' : '뜻을 입력하세요.');
+    return;
+  }
+  const { data, error } = await db.from('words').insert({ word, meaning }).select().single();
+  if (error) { showMsg('추가 실패: ' + error.message); return; }
+  words.unshift(data);
+  $('word').value = '';
+  $('meaning').value = '';
+  showMsg('');
+  render();
+});
+
+async function toggle(w, box) {
+  const { error } = await db.from('words').update({ memorized: box.checked }).eq('id', w.id);
+  if (error) { box.checked = w.memorized; showMsg('저장 실패: ' + error.message); return; }
+  w.memorized = box.checked;
+  showMsg('');
+  render();
+}
+
+async function remove(w) {
+  const { error } = await db.from('words').delete().eq('id', w.id);
+  if (error) { showMsg('삭제 실패: ' + error.message); return; }
+  words = words.filter((x) => x.id !== w.id);
+  showMsg('');
+  render();
+}
+
+load();
+</script>
+</body>
+</html>
